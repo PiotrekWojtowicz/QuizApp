@@ -29,7 +29,7 @@ QuizApp was designed to be fast reliable and portable. These considerations stee
 | Frontend  | Backend ||
 | :-------------: | :-------------: | :-------------------------- |
 |[![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)| In our JavaScript frontend application, we leverage the capabilities of asynchronous requests (AJAX) in conjunction with JSON Web Token (JWT) authentication. After users log in, we obtain the initial JWT token through the authentication endpoint. This token is subsequently utilized to make secure and authenticated requests to the RESTful API, which we've developed in Python. This approach enables us to retrieve successive batches of content as needed, ensuring efficient and secure access to the API's data and enhancing the user experience.  |
-<img align="center" width="929" alt="Zrzut ekranu 2023-10-23 o 23 59 33" src="https://github.com/PiotrekWojtowicz/QuizApp/assets/49318908/67b228cb-d92f-4b6a-9fed-c5bda43c314c">
+<img width="929" alt="Zrzut ekranu 2023-10-23 o 23 59 33" src="https://github.com/PiotrekWojtowicz/QuizApp/assets/49318908/78ac0208-64b2-4066-b016-7ce73bbf35f4">
 
 ## Tools and dependecies
 
