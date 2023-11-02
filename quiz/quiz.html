@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz z HTML/CSS</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+			text-align: center;
+			background-image: url('../img/html-css.png');
+			background-color: rgba(255,255,255,0.6);
+			background-blend-mode: lighten;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .question {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+	<h1 style="color: #333">Quiz z podstaw HTML/CSS</h1>
+	<div class="progress" style="max-width:800px; margin:0 auto" role="progressbar" aria-label="Success example" aria-valuenow="8.33" aria-valuemin="0" aria-valuemax="100">
+		<div class="progress-bar bg-success" style="width:8.33%"></div>
+	</div>
+	<h5 class="my-3" style="max-width:800px; margin:0 auto"> Pytanie 1/12 </h5>
+	<div class="mt-0">	
+		<div class="container row g-2">
+			<div class="question col-6 align-self-center justify" style="align:center" id="question1">
+				<h5> Pytanie 1: </h5>
+				<p class="mb-0"> Jakie jest znaczenie HTML?</p>
+			</div>
+			<div class="col-6 d-flex justify-content-end align-self-center" style="padding-right:50px">
+				<!--Tu przy kazdym pytaniu wstaw jakis obrazek-->
+				<img src="" alt="obrazek" style="width:128px; height:96px" class="img-thumbnail rounded"/>
+			</div>
+		</div>
+		<div class="container">
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) Hyper Text Makeup Language</label>
+                <label><input type="radio" name="q1" value="b"> b) Hyper Text Markup Language</label>
+                <label><input type="radio" name="q1" value="c"> c) Hyper Transfer Markup Language</label>
+                <label><input type="radio" name="q1" value="d"> d) Hyperlink Text Markup Language</label>
+            </div>
+			<div style="display:flex; justify-content:flex-end">
+				<button onclick="nextQuestion()" style="margin-left:auto; margin-right:0">Dalej</button>
+				<!--<button onclick="checkAnswers()" style="margin-left:auto; margin-right:0">Sprawdź odpowiedzi</button>-->
+			</div>
+		</div>
+		<button onclick="skip()">Pomiń</button>
+    </div>
+	<!--
+	<div class="container" id="formularz" style="text-align:left">
+		<h3> Formularz edycji pytania </h3>
+		<div class="row">
+			<div class="col-3"> 
+				Aktualne pytanie:
+			</div>
+			<div class="col-6">
+				<textarea name="Pytanie" cols="50">Jakie jest znaczenie HTML?</textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3"> 
+				Aktualne odpowiedzi:
+			</div>
+			<div class="col-6">
+				<textarea name="odp1" cols="50">Hyper Text Makeup Language</textarea><br>
+				<textarea name="odp2" cols="50">Hyper Text Markup Language</textarea><br>
+				<textarea name="odp3" cols="50">Hyper Transfer Markup Language</textarea><br>
+				<textarea name="odp4" cols="50">Hyperlink Text Markup Language</textarea><br>
+			</div>
+		</div>
+		<div style="display:flex; justify-content:flex-end; padding:0">
+			<button onclick="edit()" style="margin-left:auto; margin-right:0">Edytuj</button>
+		</div>
+	</div>
+	-->
+    <script>
+        function nextQuestion() {
+			console.log("Dalej: dziala")
+		}
+		
+		<!-- to jest funkcja z pliku prowadzacego, ale ja tego nie uzywam. Jak niepotrzebne, mozna usunać-->
+		function checkAnswers() {
+            const answers = {
+                q1: 'b', // Poprawna odpowiedź dla pytania 1
+                // Dodaj kolejne odpowiedzi
+            };
+
+            let correctCount = 0;
+            for (let i = 1; i <= 20; i++) {
+                const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === answers[`q${i}`]) {
+                        correctCount++;
+                    }
+                }
+            }
+			
+			<!-- tego id nawet nie ma w body-->
+            const results = document.getElementById("results");
+            results.innerHTML = `Liczba poprawnych odpowiedzi: ${correctCount}/20`;
+        }
+		
+		function skip() {
+			console.log("Skip: dziala")
+		}
+		
+		function edit() {
+			console.log("Edit: dziala")
+		}
+    </script>
+</body>
+</html>
