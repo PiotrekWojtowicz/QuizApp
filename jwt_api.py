@@ -1,5 +1,13 @@
 import jwt
+from flask import Flask, request, jsonify, abort
+import random as rd
+import unittest
 
+# type 'flask --app jwt_api run' to start locally
+app = Flask(__name__)
+
+
+# users
 test_user = {
     'login': 'john123',
     'password': 'ilike69and420'
@@ -11,31 +19,74 @@ test_user2 = {
 }
 
 users = [test_user, test_user2]
-global_token = ''
 
 
-def getToken(login, password):
+class API:
+    def __init__(self) -> None:
+        self.global_token = ''
+        self.finishExam = False
+        # list of questions indices
+        self.questions_list = list(range(1, 101))
+        self.questions_list = rd.sample(self.questions_list, 10)
+        rd.shuffle(self.questions_list)
+
+
+api = API()
+
+
+# login endpoint
+@app.route("/login/", methods=['POST'])
+def authorize_login(login: str = '', password: str = ''):
     try:
+        login = request.headers.get("login")
+        password = request.headers.get('password')
+
+        print("login: " + str(login) + " | password: " + str(password))
+
         if (next(item for item in users if (item["login"] == login) and (item["password"] == password)), False):
             token = jwt.encode(
                 key=password,
                 payload=next(item for item in users if item["login"] == login)
             )
-            global global_token
-            global_token = token
-            return token
+            api.global_token = token
+            return jsonify(token)
     except StopIteration:
-        return ('Invalid Data!')
+        abort(401, description="Invalid data!")
 
 
-def authorizeToken(token):
-    if (token == global_token):
-        return token
+# getting questions
+@app.route("/questions/", methods=['GET'])
+def getQuestion(token: str = ''):
+    token = request.headers.get('token')
+
+    if (token == api.global_token):
+        if (len(api.questions_list) == 0):
+            api.finishExam = True
+            return jsonify(api.finishExam)
+        question = api.questions_list.pop()
+        return jsonify(question)
     else:
-        return "Invalid Token!"
+        abort(401, description="Invalid token!")
 
 
-print(getToken('amy456', 'b00bs'))
-print(getToken('lololpl', 'aosfjkaakf'))
-print(authorizeToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFteTQ1NiIsInBhc3N3b3JkIjoiYjAwYnMifQ.aJjxMJkxxONf59gaMenIn4q-irwm0S3Cf0J1A7GMzJM'))
-print(authorizeToken(''))
+# adding new questions
+@app.route("/add", methods=['PUT'])
+def add_question(question):
+    temp = open("temp.txt", "a")
+    temp.write(question)
+
+
+# unit tests
+class UnitTests(unittest.TestCase):
+
+    def test_login(self):
+        response = app.test_client().post('/login/', headers={
+            "login": "amy456",
+            "password": "b00bs"
+        })
+
+        assert response.status_code == '200'
+
+
+if __name__ == '__main__':
+    unittest.main()
