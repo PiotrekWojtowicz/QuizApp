@@ -58,7 +58,7 @@
             requestQ.createXMLHttpRequest().then(response => {
                 generateAllQuestionHTML(JSON.parse(response));
             }).catch(error => {
-                console.log(error);
+                console.log("You are not authorized");
             });
         }
 

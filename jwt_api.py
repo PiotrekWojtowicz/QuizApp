@@ -12,24 +12,25 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # users
 test_user = {
-    'login': 'a',
+    'login': 'Profesor',
     'password': 'a'
 }
 
 test_user2 = {
-    'login': 'amy456',
-    'password': 'b00bs'
+    'login': 'Student',
+    'password': 'a'
 }
 
 users = [test_user, test_user2]
 
 
 class QuestionManager:
-    def __init__(self, data_file):
+    def __init__(self):
         self.questions = []
         self.index = 0
         self.max_questions = 10
 
+    def reload_all_questions(self, data_file):
         # Load questions from the JSON data file
         with open(data_file, 'r') as file:
             self.questions = json.load(file)
@@ -64,7 +65,8 @@ class API:
 
 
 api = API()
-question_manager = QuestionManager('questions.json')
+question_manager = QuestionManager()
+question_manager.reload_all_questions('questions.json')
 
 
 # login endpoint
@@ -106,11 +108,22 @@ def getQuestion(token: str = ''):
 
 
 @app.route("/questionsAll/", methods=['GET'])
+@cross_origin(origin='*')
 def getQuestions(token: str = ''):
     token = request.headers.get('token')
     print(token)
     if (token == api.global_token):
         return jsonify(question_manager.questions)
+    else:
+        abort(401, description="Invalid token!")
+
+@app.route("/checkProf/", methods=['GET'])
+@cross_origin(origin='*')
+def checkProf(token: str = ''):
+    token = request.headers.get('token')
+    print(token)
+    if (token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IlByb2Zlc29yIiwicGFzc3dvcmQiOiJhIn0.qJ-RHgdi2Mztz3AVTVEgJ6pXo8k22lIIBFZTVqhqNKI"):
+        return jsonify("True")
     else:
         abort(401, description="Invalid token!")
 
@@ -135,7 +148,8 @@ def add_question(token: str = '', question: str = ''):
             questionFile_data.append(question)
             questionFile.seek(0)
             json.dump(questionFile_data, questionFile, indent=4)
-            return jsonify(question)
+            question_manager.reload_all_questions('questions.json')
+            return jsonify("Added")
     else:
         abort(401, description="Invalid token!")
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz z HTML/CSS</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+			text-align: center;
+			background-image: url('img/html-css.png');
+			background-color: rgba(255,255,255,0.6);
+			background-blend-mode: lighten;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 410px;
+            margin: 20px auto;
+			text-align:left;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+	<h1 style="color: #333">Quiz z podstaw HTML/CSS</h1>
+	<div class="container" id="formularz">
+		<h3> Dodaj nowe pytanie </h3>
+		Pytanie:<br>
+		<textarea placeholder="Wpisz treść pytania" name="Pytanie" id="question" cols="50"></textarea><br>
+		Odpowiedzi:<br>
+		<textarea id="a" placeholder="Wpisz odpowiedź dla opcji a)" name="odp1" cols="50"></textarea><br>
+		<textarea id="b" placeholder="Wpisz odpowiedź dla opcji b)" name="odp2" cols="50"></textarea><br>
+		<textarea id="c" placeholder="Wpisz odpowiedź dla opcji c)" name="odp3" cols="50"></textarea><br>
+		<textarea id="d" placeholder="Wpisz odpowiedź dla opcji d)" name="odp4" cols="50"></textarea><br>
+		<textarea id="propAns" placeholder="Należy wpisać pojedynczą literę [ a | b | c | d ]" name="odpPop" cols="50"></textarea><br>
+		<div style="display:flex; justify-content:flex-end">
+			<button onclick="add()" style="margin-left:auto; margin-right:0">Dodaj</button>
+		</div>
+	</div>
+	<button onclick="backToMainPage()">Powrot</button>
+    <script src="./scripts/RequestFactory.js"></script>
+    <script>
+        function onPageLoad() {
+            requestQ = new CheckProfXmlHttpRequest();
+            requestQ.createXMLHttpRequest().then(response => {
+                console.log(JSON.parse(response));
+            }).catch(error => {
+                console.log(error);
+                const sessionFactory = new QuizLocalStorageFactory();
+                const sessionStorage = sessionFactory.createStorage();
+                sessionStorage.removeToken();
+                sessionStorage.removeFlag();
+                sessionStorage.removePoints();
+                window.location.href='./signin.html'
+            });
+        }
+
+        window.onload = onPageLoad;
+
+		function backToMainPage() {
+            const sessionFactory = new QuizLocalStorageFactory();
+            const sessionStorage = sessionFactory.createStorage();
+            sessionStorage.removeToken();
+            sessionStorage.removeFlag();
+            sessionStorage.removePoints();
+            window.location.href='./signin.html'
+        }
+
+		function add() {
+            const request = new PutQuestionXMLHttpRequest();
+            const question = document.getElementById("question").value;
+            const a = "a) "+document.getElementById("a").value;
+            const b = "b) "+document.getElementById("b").value;
+            const c = "c) "+document.getElementById("c").value;
+            const d = "d) "+document.getElementById("d").value;
+            let propAns;
+            switch(document.getElementById("propAns").value) {
+                case 'a':
+                    propAns = a;
+                    break;
+                case 'b':
+                    propAns = b;
+                    break;
+                case 'c':
+                    propAns = c;
+                    break;
+                case 'd':
+                    propAns = d;
+                    break;
+                default:
+                    propAns = a;
+                    break;
+            }
+            request.createXMLHttpRequest(question, a, b,c,d,propAns);
+        }
+    </script>
+</body>
+</html>
