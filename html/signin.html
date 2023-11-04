@@ -51,17 +51,21 @@
 		<h3> Logowanie </h3>
 		<div class="row" style="height:200px">
 			<div class="col align-self-center">
-				<form class="login-form">
-					<input type="text" placeholder="username">
-					<input type="password" placeholder="password">
+				<form class="login-form" >
+					<input type="text" id="username" placeholder="username">
+					<input type="password" id="password" placeholder="password">
 				</form>
 			</div>
 		</div>
 		<button onclick="login()">Zaloguj</button>
 	</div>
+	<script src="./scripts/RequestFactory.js"></script>
     <script>
 		function login() {
-			console.log("Login: dziala")
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+			const request = new LoginXMLHttpRequest(username, password);
+			request.createXMLHttpRequest();
 		}
     </script>
 </body>
