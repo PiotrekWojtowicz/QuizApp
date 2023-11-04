@@ -94,7 +94,7 @@ def getQuestion(token: str = ''):
     token = request.headers.get('token')
     print(token)
     if (token == api.global_token):
-        if(question_manager.has_more_questions()):
+        if (question_manager.has_more_questions()):
             print(question_manager.index)
             return jsonify(question_manager.get_next_question())
         else:
@@ -106,10 +106,29 @@ def getQuestion(token: str = ''):
 
 
 # adding new questions
-@app.route("/add", methods=['PUT'])
-def add_question(question):
-    temp = open("temp.txt", "a")
-    temp.write(question)
+@app.route("/add/", methods=['PUT'])
+def add_question(token: str = '', question: str = ''):
+    token = request.headers.get('token')
+    question = {
+        "question": request.headers.get('question'),
+        "answers": [
+            request.headers.get('answA'),
+            request.headers.get('answB'),
+            request.headers.get('answC'),
+            request.headers.get('answD')
+        ],
+        "correct_answer": request.headers.get('correct')
+    }
+    print(token)
+    if (token == api.global_token):
+        with open('questions.json', 'r+') as questionFile:
+            questionFile_data = json.load(questionFile)
+            questionFile_data.append(question)
+            questionFile.seek(0)
+            json.dump(questionFile_data, questionFile, indent=4)
+            return jsonify(question)
+    else:
+        abort(401, description="Invalid token!")
 
 
 if __name__ == '__main__':
