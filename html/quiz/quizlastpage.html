@@ -76,41 +76,36 @@
 			const sessionStorage = sessionFactory.createStorage();
 			const requestQ = new QuestionXMLHttpRequest();
 			requestQ.createXMLHttpRequest();
-			addResultText();
+			addResultText(sessionStorage.getPoints());
 			sessionStorage.removeToken();
 			sessionStorage.removeFlag();
 			sessionStorage.removePoints();
 		}
 
         window.onload = onPageLoad;
-
-
 		
 		function backToMainPage() {
 			window.location.href='../signin.html'
 		}
 		
-		var result = 16
-		
-		function addResultText() {
+		function addResultText(result) {
 			const jsConfetti = new JSConfetti();
 			const resultDiv = document.getElementById("resultText");
 			
 			document.getElementById("ticks").innerHTML = `${result}`
-			document.getElementById("cross").innerHTML = `${20 - result}`
-			document.getElementById("resultHTML").innerHTML = `Wynik: ${result}/20`
+			document.getElementById("cross").innerHTML = `${10 - result}`
+			document.getElementById("resultHTML").innerHTML = `Wynik: ${result}/10`
 			
 			text = ['Świetnie Ci poszło! Widać, że znasz się na rzeczy',
 					'Nie było źle, ale wiem, że stać Cię na jeszcze więcej!',
 					'Nie smuć się! Następnym razem na pewno pójdzie Ci lepiej!']
 				
-			<!-- Do wyboru (wynik / 20): good-result (16 i wyzej) / ok-result (11 - 14) / bad-result (0 - 10)-->	
-			if (result > 15) {
+			if (result > 8) {
 				textToDisplay = text[0]
 				jsConfetti.addConfetti()
 				document.getElementById("emoji").innerHTML = `<img src="../img/good-result.png" alt="result" style="width:256px; height:256px" class="img rounded"/>`
 			}
-			else if (result > 10) {
+			else if (result > 6) {
 				textToDisplay = text[1]
 				document.getElementById("emoji").innerHTML = `<img src="../img/ok-result.png" alt="result" style="width:256px; height:256px" class="img rounded"/>`
 			}
@@ -120,10 +115,6 @@
 			}
 			
             resultDiv.innerHTML = `<h4> ${textToDisplay} </h4>`;
-		}
-		
-		function add() {
-			console.log("Dodaj: dziala")
 		}
 		
     </script>
