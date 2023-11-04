@@ -98,5 +98,65 @@
             "d) <dl>"
         ],
         "correct_answer": "a) <ul>"
+    },
+    {
+        "question": "Jaki jest skrótowa nazwa języka służącego do stylizacji stron internetowych?",
+        "answers": [
+            "a) HTML",
+            "b) JS",
+            "c) CSS",
+            "d) PHP"
+        ],
+        "correct_answer": "c) CSS"
+    },
+    {
+        "question": "Jakie są podstawowe bloki budowy strony internetowej?",
+        "answers": [
+            "a) Nagłówek, treść, stopka",
+            "b) Spaghetti, lasagna, pizza",
+            "c) Wszystko to samo",
+            "d) Nie ma żadnych bloków"
+        ],
+        "correct_answer": "a) Nagłówek, treść, stopka"
+    },
+    {
+        "question": "Który język programowania jest wykorzystywany do tworzenia interaktywnych stron internetowych?",
+        "answers": [
+            "a) HTML",
+            "b) CSS",
+            "c) JavaScript",
+            "d) Python"
+        ],
+        "correct_answer": "c) JavaScript"
+    },
+    {
+        "question": "Który atrybut HTML określa alternatywny tekst dla obrazu?",
+        "answers": [
+            "a) title",
+            "b) alt",
+            "c) src",
+            "d) description"
+        ],
+        "correct_answer": "b) alt"
+    },
+    {
+        "question": "Co oznacza skrót HTML?",
+        "answers": [
+            "a) Hyper Text Markup Language",
+            "b) High Tech Modern Language",
+            "c) Home Tool for Making Lists",
+            "d) Happy Turtles Making Lasagna"
+        ],
+        "correct_answer": "a) Hyper Text Markup Language"
+    },
+    {
+        "question": "Który znacznik HTML jest używany do tworzenia horyzontalnej linii?",
+        "answers": [
+            "a) <hr>",
+            "b) <line>",
+            "c) <hrizontal>",
+            "d) <divider>"
+        ],
+        "correct_answer": "a) <hr>"
     }
 ]
