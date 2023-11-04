@@ -46,11 +46,11 @@ class QuestionManager:
             return None  # No more questions available
 
     def reset_questions(self):
-        self.index = 0
+        self.index = -1
         rd.shuffle(self.questions)
 
     def has_more_questions(self):
-        return self.index < min(len(self.questions), self.max_questions)
+        return self.index < self.max_questions
 
 
 class API:
@@ -95,9 +95,11 @@ def getQuestion(token: str = ''):
     print(token)
     if (token == api.global_token):
         if(question_manager.has_more_questions()):
+            print(question_manager.index)
             return jsonify(question_manager.get_next_question())
         else:
             api.finishExam = True
+            question_manager.reset_questions()
             return jsonify(json.dumps({'finished': api.finishExam}))
     else:
         abort(401, description="Invalid token!")

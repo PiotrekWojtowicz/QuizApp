@@ -61,98 +61,42 @@
 </head>
 <body>
 	<h1 style="color: #333">Quiz z podstaw HTML/CSS</h1>
-	<h5 class="my-3" style="max-width:800px; margin:0 auto"> Pytanie 1/12 </h5>
+	<h5 class="my-3" style="max-width:800px; margin:0 auto"> Pytanie <span class="number"></span>/10 </h5>
 	<div class="mt-0">	
 		<div class="container row g-1">
 			<div class="question col-12 align-self-center justify" style="align:center" id="question1">
-				<h5> Pytanie 1: </h5>
-				<p class="mb-0"> Jakie jest znaczenie HTML?</p>
+				<h5> Pytanie <span class="number"></span>: </h5>
+				<p class="mb-0" id="question"></p>
 			</div>
 		</div>
 		<div class="container">
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> a) Hyper Text Makeup Language</label>
-                <label><input type="radio" name="q1" value="b"> b) Hyper Text Markup Language</label>
-                <label><input type="radio" name="q1" value="c"> c) Hyper Transfer Markup Language</label>
-                <label><input type="radio" name="q1" value="d"> d) Hyperlink Text Markup Language</label>
+                <label><input type="radio" name="q1" value="a"><span id="answA"></span></label>
+                <label><input type="radio" name="q1" value="b"><span id="answB"></span></label>
+                <label><input type="radio" name="q1" value="c"><span id="answC"></span></label>
+                <label><input type="radio" name="q1" value="d"><span id="answD"></span></label>
             </div>
 			<div style="display:flex; justify-content:flex-end">
 				<button onclick="nextQuestion()" style="margin-left:auto; margin-right:0">Dalej</button>
 				<!--<button onclick="checkAnswers()" style="margin-left:auto; margin-right:0">Sprawdź odpowiedzi</button>-->
 			</div>
 		</div>
-		<button onclick="skip()">Pomiń</button>
     </div>
-	<!--
-	<div class="container" id="formularz" style="text-align:left">
-		<h3> Formularz edycji pytania </h3>
-		<div class="row">
-			<div class="col-3"> 
-				Aktualne pytanie:
-			</div>
-			<div class="col-6">
-				<textarea name="Pytanie" cols="50">Jakie jest znaczenie HTML?</textarea>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-3"> 
-				Aktualne odpowiedzi:
-			</div>
-			<div class="col-6">
-				<textarea name="odp1" cols="50">Hyper Text Makeup Language</textarea><br>
-				<textarea name="odp2" cols="50">Hyper Text Markup Language</textarea><br>
-				<textarea name="odp3" cols="50">Hyper Transfer Markup Language</textarea><br>
-				<textarea name="odp4" cols="50">Hyperlink Text Markup Language</textarea><br>
-			</div>
-		</div>
-		<div style="display:flex; justify-content:flex-end; padding:0">
-			<button onclick="edit()" style="margin-left:auto; margin-right:0">Edytuj</button>
-		</div>
-	</div>
-	-->
     <script src="../scripts/RequestFactory.js"></script>
     <script>
-
+        let requestQ;
         function onPageLoad() {
-            const requestQ = new QuestionXMLHttpRequest();
+            requestQ = new QuestionXMLHttpRequest();
             requestQ.createXMLHttpRequest();
         }
 
         window.onload = onPageLoad;
 
         function nextQuestion() {
-			console.log("Dalej: dziala")
+            requestQ.checkPoints();
+            location.reload();
 		}
-		
-		<!-- to jest funkcja z pliku prowadzacego, ale ja tego nie uzywam. Jak niepotrzebne, mozna usunać-->
-		function checkAnswers() {
-            const answers = {
-                q1: 'b', // Poprawna odpowiedź dla pytania 1
-                // Dodaj kolejne odpowiedzi
-            };
 
-            let correctCount = 0;
-            for (let i = 1; i <= 20; i++) {
-                const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
-                if (selectedAnswer) {
-                    if (selectedAnswer.value === answers[`q${i}`]) {
-                        correctCount++;
-                    }
-                }
-            }
-			
-			<!-- tego id nawet nie ma w body-->
-            const results = document.getElementById("results");
-            results.innerHTML = `Liczba poprawnych odpowiedzi: ${correctCount}/20`;
-        }
-		
-		function skip() {
-			console.log("Skip: dziala")
-		}
-		
-		function edit() {
-			console.log("Edit: dziala")
-		}
     </script>
 </body>
 </html>

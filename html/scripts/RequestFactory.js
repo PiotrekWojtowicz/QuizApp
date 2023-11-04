@@ -30,6 +30,7 @@ class QuizStorage {
         }
         this.tokenKey = "token";
         this.flagKey = "isFinished"
+        this.pointsKey = "points"
     }
 
     setFlag(flag){
@@ -41,6 +42,18 @@ class QuizStorage {
     }
 
     removeFlag(){
+        throw new Error("Method needs to be implemented");
+    }
+
+    setPoints(points){
+        throw new Error("Method needs to be implemented");
+    }
+
+    getPoints(){
+        throw new Error("Method needs to be implemented");
+    }
+
+    removePoints(){
         throw new Error("Method needs to be implemented");
     }
 
@@ -75,6 +88,18 @@ class QuizSessionStorage extends QuizStorage {
         sessionStorage.removeItem(this.flagKey);
     }
 
+    setPoints(points){
+        sessionStorage.setItem(this.pointsKey, points);
+    }
+
+    getPoints(){
+        return sessionStorage.getItem(this.pointsKey);
+    }
+
+    removePoints(){
+        sessionStorage.removeItem(this.pointsKey);
+    }
+
     setToken(token) {
         sessionStorage.setItem(this.tokenKey, token);
     }
@@ -105,6 +130,19 @@ class QuizLocalStorage extends QuizStorage {
     removeFlag(){
         localStorage.removeItem(this.flagKey);
     }
+
+    setPoints(points){
+        localStorage.setItem(this.pointsKey, points);
+    }
+
+    getPoints(){
+        return localStorage.getItem(this.pointsKey);
+    }
+
+    removePoints(){
+        localStorage.removeItem(this.pointsKey);
+    }
+
     setToken(token) {
         localStorage.setItem(this.tokenKey, token);
     }
@@ -119,11 +157,6 @@ class QuizLocalStorage extends QuizStorage {
 }
 
 class XMLHttpRequestAbs{
-
-    setCORSPolicyHeaders(xhr){
-        xhr.setRequestHeader('Access-Control-Allow-Origin','*');
-        xhr.setRequestHeader('Content-Type','application/json');
-    }
 
     createXMLHttpRequest() {
         throw new Error("Method needs to be implemented");
@@ -158,7 +191,8 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
             xhr.open(this.method, this.endpoint);
             xhr.setRequestHeader('login', this.username);
             xhr.setRequestHeader('password', this.password);
-            super.setCORSPolicyHeaders(xhr);
+            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+            xhr.setRequestHeader('Content-Type','application/json');
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -166,7 +200,8 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
                         const sessionFactory = new QuizLocalStorageFactory();
                         const sessionStorage = sessionFactory.createStorage();
                         sessionStorage.setToken(xhr.responseText);
-                        sessionStorage.setFlag('false');
+                        sessionStorage.setFlag(1);
+                        sessionStorage.setPoints(0);
                         window.location.href = './quiz/quiz.html';
                     } else {
                         window.alert("Błędne dane logowania");
@@ -182,7 +217,7 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
 
 class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
 
-    constructor(username, password) {
+    constructor() {
         super();
         this.endpoint = 'http://127.0.0.1:5000/questions/';
         this.method = 'GET';
@@ -193,7 +228,8 @@ class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
             const xmlHttp = new StandardXMLHttpRequestFactory();
             const xhr = xmlHttp.createXMLHttpRequest();
             xhr.open(this.method, this.endpoint);
-            super.setCORSPolicyHeaders(xhr);
+            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+            xhr.setRequestHeader('Content-Type','application/json');
             const sessionFactory = new QuizLocalStorageFactory();
             const sessionStorage = sessionFactory.createStorage();
             if(sessionStorage.getToken() === null){
@@ -206,12 +242,16 @@ class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        const jsonData = JSON.parse(xhr.response)
+                        const jsonData = JSON.parse(xhr.response);
                         if(!jsonData.hasOwnProperty('answers')){
                             if(window.location.href !== 'file:///Users/piotrwojtowicz/fleet/QuizApp/html/quiz/quizlastpage.html'){
                                 window.location.href = '../quiz/quizlastpage.html';
                             }
                         }
+                        const template = new TemplateEngine();
+                        template.incrementStorage();
+                        template.insertText(jsonData);
+                        TemplateEngine.propAnswer = jsonData['correct_answer'];
                     } else {
                         window.alert("Błędne dane logowania");
                         window.location.href = '../signin.html';
@@ -222,6 +262,70 @@ class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
 
         } else {
             throw new Error("XMLHttpRequest is not supported in this environment.");
+        }
+    }
+
+    checkPoints(){
+        TemplateEngine.checkAnswer();
+    }
+
+}
+
+class TemplateEngine{
+
+    static propAnswer = "";
+
+    constructor() {
+        this.questionField = document.getElementById("question");
+        this.ansA = document.getElementById("answA");
+        this.ansB = document.getElementById("answB");
+        this.ansC = document.getElementById("answC");
+        this.ansD = document.getElementById("answD");
+        this.numField = document.getElementsByClassName("number");
+        const sessionFactory = new QuizLocalStorageFactory();
+        this.sessionStorage = sessionFactory.createStorage();
+    }
+
+    incrementStorage(){
+        let num = this.sessionStorage.getFlag();
+        for (let i = 0; i < this.numField.length; i++) {
+            this.numField[i].textContent = num;
+        }
+        this.sessionStorage.removeFlag();
+
+        num = parseInt(num);
+        num += 1;
+        num = num.toString();
+        this.sessionStorage.setFlag(num);
+    }
+
+    insertText(jsonData) {
+        this.questionField.innerText=jsonData['question'];
+        this.ansA.innerText=jsonData['answers'][0];
+        this.ansB.innerText=jsonData['answers'][1];
+        this.ansC.innerText=jsonData['answers'][2];
+        this.ansD.innerText=jsonData['answers'][3];
+    }
+    static checkAnswer(){
+        let userAnswer;
+        let radios = document.getElementsByName('q1');
+        let sessionFactory = new QuizLocalStorageFactory();
+        let sessionStorage = sessionFactory.createStorage();
+
+        for (let i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                userAnswer = radios[i].nextSibling.textContent;
+                break;
+            }
+        }
+
+        if (userAnswer === this.propAnswer) {
+            let num = sessionStorage.getPoints();
+            num = parseInt(num);
+            num += 1;
+            num = num.toString();
+            sessionStorage.removePoints();
+            sessionStorage.setPoints(num);
         }
     }
 

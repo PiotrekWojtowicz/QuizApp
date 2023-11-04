@@ -72,9 +72,14 @@
 	<script src="../scripts/RequestFactory.js"></script>
     <script>
 		function onPageLoad() {
+			const sessionFactory = new QuizLocalStorageFactory();
+			const sessionStorage = sessionFactory.createStorage();
 			const requestQ = new QuestionXMLHttpRequest();
 			requestQ.createXMLHttpRequest();
 			addResultText();
+			sessionStorage.removeToken();
+			sessionStorage.removeFlag();
+			sessionStorage.removePoints();
 		}
 
         window.onload = onPageLoad;
@@ -82,7 +87,7 @@
 
 		
 		function backToMainPage() {
-			console.log("Powrot: dziala")
+			window.location.href='../signin.html'
 		}
 		
 		var result = 16
