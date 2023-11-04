@@ -139,7 +139,7 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
     
     constructor(username, password) {
         super();
-        this.endpoint = 'http://localhost:5000/login/';
+        this.endpoint = 'http://127.0.0.1:5000/login/';
         this.method = 'POST';
         this.username = username;
         this.password = password;
@@ -151,16 +151,18 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
             const xhr = xmlHttp.createXMLHttpRequest();
             xhr.open(this.method, this.endpoint);
             xhr.setRequestHeader('login', this.username);
-            xhr.setRequestHeader('password', this.username);
+            xhr.setRequestHeader('password', this.password);
+            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+            xhr.setRequestHeader('Content-Type','application/json');
+
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        const sessionFactory = new QuizSessionStorageFactory();
-                        const sessionStorage = sessionTokenFactory.createStorage();
-                        sessionTokenStorage.setToken(xhr.responseText);
-                        sessionTokenStorage.setFlag('false')
-                        console.log(xhr.responseText)
-                        window.location.href = 'http://localhost:5000/questions';
+                        const sessionFactory = new QuizLocalStorageFactory();
+                        const sessionStorage = sessionFactory.createStorage();
+                        sessionStorage.setToken(xhr.responseText);
+                        sessionStorage.setFlag('false');
+                        window.location.href = './quiz/quiz.html';
                     } else {
                         window.alert("Błędne dane logowania");
                     }

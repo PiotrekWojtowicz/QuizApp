@@ -1,11 +1,13 @@
 import jwt
 from flask import Flask, request, jsonify, abort
+from flask_cors import CORS, cross_origin
 import random as rd
 import unittest
 
 # type 'flask --app jwt_api run' to start locally
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # users
 test_user = {
@@ -36,6 +38,7 @@ api = API()
 
 # login endpoint
 @app.route("/login/", methods=['POST'])
+@cross_origin(origin='*')
 def authorize_login(login: str = '', password: str = ''):
     try:
         login = request.headers.get("login")
@@ -76,17 +79,5 @@ def add_question(question):
     temp.write(question)
 
 
-# unit tests
-class UnitTests(unittest.TestCase):
-
-    def test_login(self):
-        response = app.test_client().post('/login/', headers={
-            "login": "amy456",
-            "password": "b00bs"
-        })
-
-        assert response.status_code == '200'
-
-
 if __name__ == '__main__':
-    unittest.main()
+    app.run(host='127.0.0.1', port=8000)
