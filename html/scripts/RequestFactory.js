@@ -215,6 +215,48 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
     }
 }
 
+class EditQuestionsXmlHttpRequest extends XMLHttpRequestAbs {
+    constructor() {
+        super();
+        this.endpoint = 'http://127.0.0.1:5000/questionsAll/';
+        this.method = 'GET';
+    }
+
+    createXMLHttpRequest() {
+        return new Promise((resolve, reject) => {
+            if (window.XMLHttpRequest) {
+                const xmlHttp = new StandardXMLHttpRequestFactory();
+                const xhr = xmlHttp.createXMLHttpRequest();
+                xhr.open(this.method, this.endpoint);
+                xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+                xhr.setRequestHeader('Content-Type','application/json');
+                const sessionFactory = new QuizLocalStorageFactory();
+                const sessionStorage = sessionFactory.createStorage();
+                if(sessionStorage.getToken() === null){
+                    window.alert("You are not authorized");
+                    window.location.href = '../signin.html';
+                }
+                const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
+                xhr.setRequestHeader('token', tokenWithoutQuotes);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            resolve(xhr.responseText);
+                        } else {
+                            window.alert("Błędne dane logowania");
+                            reject(new Error("Request failed with status " + xhr.status));
+                        }
+                    }
+                };
+                xhr.send();
+            } else {
+                reject(new Error("XMLHttpRequest is not supported in this environment."));
+            }
+        });
+    }
+}
+
 class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
 
     constructor() {

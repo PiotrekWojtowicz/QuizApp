@@ -105,6 +105,15 @@ def getQuestion(token: str = ''):
         abort(401, description="Invalid token!")
 
 
+@app.route("/questionsAll/", methods=['GET'])
+def getQuestions(token: str = ''):
+    token = request.headers.get('token')
+    print(token)
+    if (token == api.global_token):
+        return jsonify(question_manager.questions)
+    else:
+        abort(401, description="Invalid token!")
+
 # adding new questions
 @app.route("/add", methods=['PUT'])
 def add_question(question):
