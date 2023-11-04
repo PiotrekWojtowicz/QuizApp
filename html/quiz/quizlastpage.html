@@ -42,9 +42,6 @@
 </head>
 <body onload="addResultText()">
 	<h1 style="color: #333">Quiz z podstaw HTML/CSS</h1>
-	<div class="progress" style="max-width:800px; margin:0 auto" role="progressbar" aria-label="Success example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-		<div class="progress-bar bg-success w-100"></div>
-	</div>
 	<div>	
 		<div class="container">
 			<div id="resultText"></div>
@@ -72,9 +69,17 @@
 		</div>
 		<button onclick="backToMainPage()">Powrot</button>
     </div>
+	<script src="../scripts/RequestFactory.js"></script>
     <script>
+		function onPageLoad() {
+			const requestQ = new QuestionXMLHttpRequest();
+			requestQ.createXMLHttpRequest();
+			addResultText();
+		}
 
-		const jsConfetti = new JSConfetti()
+        window.onload = onPageLoad;
+
+
 		
 		function backToMainPage() {
 			console.log("Powrot: dziala")
@@ -83,6 +88,7 @@
 		var result = 16
 		
 		function addResultText() {
+			const jsConfetti = new JSConfetti();
 			const resultDiv = document.getElementById("resultText");
 			
 			document.getElementById("ticks").innerHTML = `${result}`

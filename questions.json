@@ -1,0 +1,102 @@
+[
+    {
+        "question": "Jak oznaczasz nagłówek pierwszego poziomu w HTML?",
+        "answers": [
+            "a) <h1>",
+            "b) <header>",
+            "c) <h2>",
+            "d) <heading1>"
+        ],
+        "correct_answer": "a) <h1>"
+    },
+    {
+        "question": "Które atrybuty HTML są zwykle używane do określenia stylu elementów?",
+        "answers": [
+            "a) class i style",
+            "b) id i script",
+            "c) link i src",
+            "d) div i span"
+        ],
+        "correct_answer": "a) class i style"
+    },
+    {
+        "question": "W jaki sposób łączysz zewnętrzny arkusz stylów (CSS) z dokumentem HTML?",
+        "answers": [
+            "a) Za pomocą elementu <style>",
+            "b) Za pomocą elementu <link>",
+            "c) Za pomocą elementu <script>",
+            "d) CSS nie może być łączony z HTML"
+        ],
+        "correct_answer": "b) Za pomocą elementu <link>"
+    },
+    {
+        "question": "Który element HTML służy do tworzenia list numerowanych?",
+        "answers": [
+            "a) <ul>",
+            "b) <ol>",
+            "c) <li>",
+            "d) <dl>"
+        ],
+        "correct_answer": "b) <ol>"
+    },
+    {
+        "question": "Jak ustawiasz tło elementu w CSS?",
+        "answers": [
+            "a) background-color",
+            "b) color",
+            "c) text-color",
+            "d) foreground-color"
+        ],
+        "correct_answer": "a) background-color"
+    },
+    {
+        "question": "Jaki znacznik HTML używasz do tworzenia linków?",
+        "answers": [
+            "a) <link>",
+            "b) <a>",
+            "c) <href>",
+            "d) <url>"
+        ],
+        "correct_answer": "b) <a>"
+    },
+    {
+        "question": "Który znacznik HTML jest używany do tworzenia tabel?",
+        "answers": [
+            "a) <table>",
+            "b) <grid>",
+            "c) <row>",
+            "d) <td>"
+        ],
+        "correct_answer": "a) <table>"
+    },
+    {
+        "question": "Jak w CSS ustawiasz czcionkę?",
+        "answers": [
+            "a) font-family",
+            "b) text-style",
+            "c) typeface",
+            "d) lettering"
+        ],
+        "correct_answer": "a) font-family"
+    },
+    {
+        "question": "Które atrybuty HTML określają opis obrazu?",
+        "answers": [
+            "a) title i alt",
+            "b) src i width",
+            "c) image i caption",
+            "d) describe i label"
+        ],
+        "correct_answer": "a) title i alt"
+    },
+    {
+        "question": "Który znacznik HTML służy do tworzenia list punktowanych?",
+        "answers": [
+            "a) <ul>",
+            "b) <ol>",
+            "c) <li>",
+            "d) <dl>"
+        ],
+        "correct_answer": "a) <ul>"
+    }
+]

@@ -119,6 +119,12 @@ class QuizLocalStorage extends QuizStorage {
 }
 
 class XMLHttpRequestAbs{
+
+    setCORSPolicyHeaders(xhr){
+        xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+        xhr.setRequestHeader('Content-Type','application/json');
+    }
+
     createXMLHttpRequest() {
         throw new Error("Method needs to be implemented");
     }
@@ -152,8 +158,7 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
             xhr.open(this.method, this.endpoint);
             xhr.setRequestHeader('login', this.username);
             xhr.setRequestHeader('password', this.password);
-            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
-            xhr.setRequestHeader('Content-Type','application/json');
+            super.setCORSPolicyHeaders(xhr);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -173,6 +178,53 @@ class LoginXMLHttpRequest extends XMLHttpRequestAbs {
             throw new Error("XMLHttpRequest is not supported in this environment.");
         }
     }
+}
+
+class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
+
+    constructor(username, password) {
+        super();
+        this.endpoint = 'http://127.0.0.1:5000/questions/';
+        this.method = 'GET';
+    }
+
+    createXMLHttpRequest() {
+        if (window.XMLHttpRequest) {
+            const xmlHttp = new StandardXMLHttpRequestFactory();
+            const xhr = xmlHttp.createXMLHttpRequest();
+            xhr.open(this.method, this.endpoint);
+            super.setCORSPolicyHeaders(xhr);
+            const sessionFactory = new QuizLocalStorageFactory();
+            const sessionStorage = sessionFactory.createStorage();
+            if(sessionStorage.getToken() === null){
+                window.alert("You are not authorized");
+                window.location.href = '../signin.html';
+            }
+            const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
+            xhr.setRequestHeader('token', tokenWithoutQuotes);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const jsonData = JSON.parse(xhr.response)
+                        if(!jsonData.hasOwnProperty('answers')){
+                            if(window.location.href !== 'file:///Users/piotrwojtowicz/fleet/QuizApp/html/quiz/quizlastpage.html'){
+                                window.location.href = '../quiz/quizlastpage.html';
+                            }
+                        }
+                    } else {
+                        window.alert("Błędne dane logowania");
+                        window.location.href = '../signin.html';
+                    }
+                }
+            };
+            xhr.send();
+
+        } else {
+            throw new Error("XMLHttpRequest is not supported in this environment.");
+        }
+    }
+
 }
 
 const standardFactory = new StandardXMLHttpRequestFactory();

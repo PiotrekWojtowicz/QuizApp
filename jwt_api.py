@@ -2,6 +2,7 @@ import jwt
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS, cross_origin
 import random as rd
+import json
 import unittest
 
 # type 'flask --app jwt_api run' to start locally
@@ -11,8 +12,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # users
 test_user = {
-    'login': 'john123',
-    'password': 'ilike69and420'
+    'login': 'a',
+    'password': 'a'
 }
 
 test_user2 = {
@@ -21,6 +22,35 @@ test_user2 = {
 }
 
 users = [test_user, test_user2]
+
+
+class QuestionManager:
+    def __init__(self, data_file):
+        self.questions = []
+        self.index = 0
+        self.max_questions = 10
+
+        # Load questions from the JSON data file
+        with open(data_file, 'r') as file:
+            self.questions = json.load(file)
+
+        # Shuffle the questions to randomize the order
+        rd.shuffle(self.questions)
+
+    def get_next_question(self):
+        if self.index < self.max_questions:
+            question = self.questions[self.index]
+            self.index += 1
+            return question
+        else:
+            return None  # No more questions available
+
+    def reset_questions(self):
+        self.index = 0
+        rd.shuffle(self.questions)
+
+    def has_more_questions(self):
+        return self.index < min(len(self.questions), self.max_questions)
 
 
 class API:
@@ -34,6 +64,7 @@ class API:
 
 
 api = API()
+question_manager = QuestionManager('questions.json')
 
 
 # login endpoint
@@ -61,13 +92,13 @@ def authorize_login(login: str = '', password: str = ''):
 @app.route("/questions/", methods=['GET'])
 def getQuestion(token: str = ''):
     token = request.headers.get('token')
-
+    print(token)
     if (token == api.global_token):
-        if (len(api.questions_list) == 0):
+        if(question_manager.has_more_questions()):
+            return jsonify(question_manager.get_next_question())
+        else:
             api.finishExam = True
-            return jsonify(api.finishExam)
-        question = api.questions_list.pop()
-        return jsonify(question)
+            return jsonify(json.dumps({'finished': api.finishExam}))
     else:
         abort(401, description="Invalid token!")
 
@@ -80,4 +111,4 @@ def add_question(question):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000)
+    print('siema')

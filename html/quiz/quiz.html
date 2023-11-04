@@ -61,19 +61,12 @@
 </head>
 <body>
 	<h1 style="color: #333">Quiz z podstaw HTML/CSS</h1>
-	<div class="progress" style="max-width:800px; margin:0 auto" role="progressbar" aria-label="Success example" aria-valuenow="8.33" aria-valuemin="0" aria-valuemax="100">
-		<div class="progress-bar bg-success" style="width:8.33%"></div>
-	</div>
 	<h5 class="my-3" style="max-width:800px; margin:0 auto"> Pytanie 1/12 </h5>
 	<div class="mt-0">	
-		<div class="container row g-2">
-			<div class="question col-6 align-self-center justify" style="align:center" id="question1">
+		<div class="container row g-1">
+			<div class="question col-12 align-self-center justify" style="align:center" id="question1">
 				<h5> Pytanie 1: </h5>
 				<p class="mb-0"> Jakie jest znaczenie HTML?</p>
-			</div>
-			<div class="col-6 d-flex justify-content-end align-self-center" style="padding-right:50px">
-				<!--Tu przy kazdym pytaniu wstaw jakis obrazek-->
-				<img src="" alt="obrazek" style="width:128px; height:96px" class="img-thumbnail rounded"/>
 			</div>
 		</div>
 		<div class="container">
@@ -117,7 +110,16 @@
 		</div>
 	</div>
 	-->
+    <script src="../scripts/RequestFactory.js"></script>
     <script>
+
+        function onPageLoad() {
+            const requestQ = new QuestionXMLHttpRequest();
+            requestQ.createXMLHttpRequest();
+        }
+
+        window.onload = onPageLoad;
+
         function nextQuestion() {
 			console.log("Dalej: dziala")
 		}
