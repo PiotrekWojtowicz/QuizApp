@@ -153,6 +153,24 @@ def add_question(token: str = '', question: str = ''):
     else:
         abort(401, description="Invalid token!")
 
+# deleting questions
+@app.route("/delete/", methods=['PATCH'])
+def delete_question(token: str = '', questions: str = ''):
+    token = request.headers.get('token')
+    questions = request.headers.get('questions').split()
+    print(token)
+    print(questions)
+    if (token == api.global_token):
+        with open('questions.json', 'r+') as questionFile:
+            questionFile_data = json.load(questionFile)
+        for q in questions:
+            del questionFile_data[int(q)]
+        with open('questions.json', 'w') as questionWrite:
+            json.dump(questionFile_data, questionWrite, indent=4)
+        return 'Success'
+    else:
+        abort(401, description="Invalid token!")
+
 
 if __name__ == '__main__':
     print('siema')
