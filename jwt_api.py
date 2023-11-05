@@ -67,6 +67,8 @@ class API:
 api = API()
 question_manager = QuestionManager()
 question_manager.reload_all_questions('questions.json')
+global idNum
+idNum = len(question_manager.questions)
 
 
 # login endpoint
@@ -131,7 +133,10 @@ def checkProf(token: str = ''):
 @app.route("/add/", methods=['PUT'])
 def add_question(token: str = '', question: str = ''):
     token = request.headers.get('token')
+    global idNum
+    idNum += 1
     question = {
+        "id":idNum,
         "question": request.headers.get('question'),
         "answers": [
             request.headers.get('answA'),

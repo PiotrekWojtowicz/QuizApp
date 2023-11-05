@@ -47,7 +47,7 @@
         <div class="row" id="rowy">
       </div>
 		<div style="display:flex; justify-content:flex-end">
-			<button onclick="add()" style="margin-left:auto; margin-right:0">Usuń</button>
+			<button onclick="delet()" style="margin-left:auto; margin-right:0">Usuń</button>
 		</div>
 	</div>
 	<button onclick="backToMainPage()">Powrot</button>
@@ -66,36 +66,31 @@
 
         function generateAllQuestionHTML(jsonData){
             for(let i = 0; i < jsonData.length; i++) {
-                const htmlCode = generateQuestionHTML(jsonData[i]['question']);
+                const htmlCode = generateQuestionHTML(jsonData[i]['question'], jsonData[i]['id']);
                 document.getElementById("rowy").innerHTML += htmlCode;
                 console.log(jsonData[i]);
             }
         }
 
-        function generateQuestionHTML(question) {
-            // Create a unique ID for each element
-            const idPrefix = 'element_' + Math.floor(Math.random() * 1000000);
-
-            // Generate HTML code for the question and answers
+        function generateQuestionHTML(question, id) {
             const questionHTML = `
             <div class="col-6 my-3">
-                Pytanie:&nbsp;<span class="${idPrefix}_question">${question}</span><br>
+                Pytanie:&nbsp;<span>${question}</span><br>
             </div>
             <div class="col-6 my-3 d-flex justify-content-cetner align-items-center">
-                <input type="checkbox" class="form-check-input ${idPrefix}_question" name="subscribe" value="newsletter"><br>
+                <input type="checkbox" class="form-check-input" id=${id} name="subscribe" value="newsletter"><br>
             </div>
         `;
-
             return questionHTML;
         }
 
-    let arr = []
+    let idSs = ""
 
     function goThroughAll(){
         const checks = document.getElementsByTagName("input");
         for(let i = 0; i < checks.length; i++) {
             if(checks[i].checked){
-                
+                idSs += " "+checks[i].getAttribute("id");
             }
         }
     }
@@ -104,8 +99,9 @@
 			console.log("Powrot: dziala")
 		}
 		
-		function add() {
-			console.log("Dodaj: dziala")
+		function delet() {
+            goThroughAll();
+            console.log(idSs);
 		}
     </script>
 </body>

@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "question": "Jak oznaczasz nagłówek pierwszego poziomu w HTML?",
         "answers": [
             "a) <h1>",
@@ -10,6 +11,7 @@
         "correct_answer": "a) <h1>"
     },
     {
+        "id": 2,
         "question": "Które atrybuty HTML są zwykle używane do określenia stylu elementów?",
         "answers": [
             "a) class i style",
@@ -20,6 +22,7 @@
         "correct_answer": "a) class i style"
     },
     {
+        "id": 3,
         "question": "W jaki sposób łączysz zewnętrzny arkusz stylów (CSS) z dokumentem HTML?",
         "answers": [
             "a) Za pomocą elementu <style>",
@@ -30,6 +33,7 @@
         "correct_answer": "b) Za pomocą elementu <link>"
     },
     {
+        "id": 4,
         "question": "Który element HTML służy do tworzenia list numerowanych?",
         "answers": [
             "a) <ul>",
@@ -40,6 +44,7 @@
         "correct_answer": "b) <ol>"
     },
     {
+        "id": 5,
         "question": "Jak ustawiasz tło elementu w CSS?",
         "answers": [
             "a) background-color",
@@ -50,6 +55,7 @@
         "correct_answer": "a) background-color"
     },
     {
+        "id": 6,
         "question": "Jaki znacznik HTML używasz do tworzenia linków?",
         "answers": [
             "a) <link>",
@@ -60,6 +66,7 @@
         "correct_answer": "b) <a>"
     },
     {
+        "id": 7,
         "question": "Który znacznik HTML jest używany do tworzenia tabel?",
         "answers": [
             "a) <table>",
@@ -70,6 +77,7 @@
         "correct_answer": "a) <table>"
     },
     {
+        "id": 8,
         "question": "Jak w CSS ustawiasz czcionkę?",
         "answers": [
             "a) font-family",
@@ -80,6 +88,7 @@
         "correct_answer": "a) font-family"
     },
     {
+        "id": 9,
         "question": "Które atrybuty HTML określają opis obrazu?",
         "answers": [
             "a) title i alt",
@@ -90,6 +99,7 @@
         "correct_answer": "a) title i alt"
     },
     {
+        "id": 10,
         "question": "Który znacznik HTML służy do tworzenia list punktowanych?",
         "answers": [
             "a) <ul>",
@@ -100,6 +110,7 @@
         "correct_answer": "a) <ul>"
     },
     {
+        "id": 11,
         "question": "Jaki jest skrótowa nazwa języka służącego do stylizacji stron internetowych?",
         "answers": [
             "a) HTML",
@@ -110,6 +121,7 @@
         "correct_answer": "c) CSS"
     },
     {
+        "id": 12,
         "question": "Jakie są podstawowe bloki budowy strony internetowej?",
         "answers": [
             "a) Nagłówek, treść, stopka",
@@ -120,6 +132,7 @@
         "correct_answer": "a) Nagłówek, treść, stopka"
     },
     {
+        "id": 13,
         "question": "Który język programowania jest wykorzystywany do tworzenia interaktywnych stron internetowych?",
         "answers": [
             "a) HTML",
@@ -130,6 +143,7 @@
         "correct_answer": "c) JavaScript"
     },
     {
+        "id": 14,
         "question": "Który atrybut HTML określa alternatywny tekst dla obrazu?",
         "answers": [
             "a) title",
@@ -140,6 +154,7 @@
         "correct_answer": "b) alt"
     },
     {
+        "id": 15,
         "question": "Co oznacza skrót HTML?",
         "answers": [
             "a) Hyper Text Markup Language",
@@ -150,6 +165,7 @@
         "correct_answer": "a) Hyper Text Markup Language"
     },
     {
+        "id": 16,
         "question": "Który znacznik HTML jest używany do tworzenia horyzontalnej linii?",
         "answers": [
             "a) <hr>",
