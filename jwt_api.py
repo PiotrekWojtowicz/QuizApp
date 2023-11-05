@@ -169,11 +169,20 @@ def delete_question(token: str = '', questions: str = ''):
     if (token == api.global_token):
         with open('questions.json', 'r+') as questionFile:
             questionFile_data = json.load(questionFile)
-        for q in questions:
-            del questionFile_data[int(q)]
+        for element in questionFile_data:
+            if (str(element['id']) in questions):
+                questionFile_data.remove(element)
         with open('questions.json', 'w') as questionWrite:
             json.dump(questionFile_data, questionWrite, indent=4)
-
+        #reindexing
+        with open('questions.json', 'r+') as questionReindex:
+            questionReindex_data = json.load(questionReindex)
+            i = 1
+            for element in questionReindex_data:
+                element['id'] = i
+                i += 1
+        with open('questions.json', 'w') as questionFinal:
+            json.dump(questionReindex_data, questionFinal, indent=4)               
         question_manager.reload_all_questions('questions.json')
         return jsonify("Success")
     else:
