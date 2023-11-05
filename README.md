@@ -44,7 +44,6 @@ QuizApp was designed to be fast reliable and portable. These considerations stee
 | -------------------------   | --------------------------                                |
 | Mozilla WebAPI Session Storage | Storage and management of session-specific data on the client-side, ensuring a smooth user experience. |
 | JWT Token (JSON Web Token) | Secure user authentication and data exchange.            |
-| OAuth 2.0 Standard         | Authentication and authorization, providing robust security and access control. |
 
 
 ## Credits
