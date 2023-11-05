@@ -256,6 +256,47 @@ class AddQuestionXMLHttpRequest extends XMLHttpRequestAbs {
     }
 }
 
+class DelXMLHttpRequest extends XMLHttpRequestAbs {
+
+    constructor(username, password) {
+        super();
+        this.endpoint = 'http://127.0.0.1:5000/login/';
+        this.method = 'POST';
+        this.username = username;
+        this.password = password;
+    }
+
+    createXMLHttpRequest() {
+        if (window.XMLHttpRequest) {
+            const xmlHttp = new StandardXMLHttpRequestFactory();
+            const xhr = xmlHttp.createXMLHttpRequest();
+            xhr.open(this.method, this.endpoint);
+            xhr.setRequestHeader('login', this.username);
+            xhr.setRequestHeader('password', this.password);
+            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+            xhr.setRequestHeader('Content-Type','application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const sessionFactory = new QuizLocalStorageFactory();
+                        const sessionStorage = sessionFactory.createStorage();
+                        sessionStorage.setToken(xhr.responseText);
+                        sessionStorage.setFlag(1);
+                        sessionStorage.setPoints(0);
+                        window.location.href = './formularz.html';
+                    } else {
+                        window.alert("Błędne dane logowania");
+                    }
+                }
+            };
+            xhr.send();
+        } else {
+            throw new Error("XMLHttpRequest is not supported in this environment.");
+        }
+    }
+}
+
 class PutQuestionXMLHttpRequest extends XMLHttpRequestAbs {
 
     constructor() {
@@ -301,7 +342,46 @@ class PutQuestionXMLHttpRequest extends XMLHttpRequestAbs {
         }
     }
 }
+class DelQuestionXMLHttpRequest extends XMLHttpRequestAbs {
 
+    constructor() {
+        super();
+        this.endpoint = 'http://127.0.0.1:5000/delete/';
+        this.method = 'DELETE';
+    }
+
+    createXMLHttpRequest(questions) {
+        if (window.XMLHttpRequest) {
+            const xmlHttp = new StandardXMLHttpRequestFactory();
+            const xhr = xmlHttp.createXMLHttpRequest();
+            xhr.open(this.method, this.endpoint);
+            xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+            xhr.setRequestHeader('Content-Type','application/json');
+            const sessionFactory = new QuizLocalStorageFactory();
+            const sessionStorage = sessionFactory.createStorage();
+            if(sessionStorage.getToken() === null){
+                window.alert("You are not authorized");
+                window.location.href = '../signin.html';
+            }
+            const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
+            xhr.setRequestHeader('token', tokenWithoutQuotes);
+            xhr.setRequestHeader('questions', questions);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        window.alert("Usunieto pytanie/a :)");
+                    } else {
+                        window.alert("Błędne dane logowania");
+                    }
+                }
+            };
+            xhr.send();
+        } else {
+            throw new Error("XMLHttpRequest is not supported in this environment.");
+        }
+    }
+}
 class EditQuestionsXmlHttpRequest extends XMLHttpRequestAbs {
     constructor() {
         super();

@@ -58,7 +58,8 @@
 			</div>
 		</div>
 		<button onclick="login()">Rozwiąż Quiz</button>
-		<button class="mt-2" onclick="pytania()">Doda Pytania</button>
+		<button class="mt-2" onclick="pytania()">Dodaj Pytania</button>
+		<button class="mt-2" onclick="pytaniaUsun()">Usuń Pytania</button>
 	</div>
 	<script src="./scripts/RequestFactory.js"></script>
     <script>
@@ -74,7 +75,12 @@
 			const request = new AddQuestionXMLHttpRequest(username, password);
 			request.createXMLHttpRequest();
 		}
-
+		function pytaniaUsun() {
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+			const request = new DelXMLHttpRequest(username, password);
+			request.createXMLHttpRequest();
+		}
     </script>
 </body>
 </html>

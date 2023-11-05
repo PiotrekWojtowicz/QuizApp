@@ -115,6 +115,7 @@ def getQuestions(token: str = ''):
     token = request.headers.get('token')
     print(token)
     if (token == api.global_token):
+        question_manager.reload_all_questions('questions.json')
         return jsonify(question_manager.questions)
     else:
         abort(401, description="Invalid token!")
@@ -159,7 +160,7 @@ def add_question(token: str = '', question: str = ''):
         abort(401, description="Invalid token!")
 
 # deleting questions
-@app.route("/delete/", methods=['PATCH'])
+@app.route("/delete/", methods=['DELETE'])
 def delete_question(token: str = '', questions: str = ''):
     token = request.headers.get('token')
     questions = request.headers.get('questions').split()
@@ -172,7 +173,9 @@ def delete_question(token: str = '', questions: str = ''):
             del questionFile_data[int(q)]
         with open('questions.json', 'w') as questionWrite:
             json.dump(questionFile_data, questionWrite, indent=4)
-        return 'Success'
+
+        question_manager.reload_all_questions('questions.json')
+        return jsonify("Success")
     else:
         abort(401, description="Invalid token!")
 

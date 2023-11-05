@@ -54,17 +54,36 @@
     <script src="./scripts/RequestFactory.js"></script>
     <script>
         function onPageLoad() {
+            request = new CheckProfXmlHttpRequest();
+            request.createXMLHttpRequest().then(response => {
+                console.log(JSON.parse(response));
+            }).catch(error => {
+                console.log(error);
+                const sessionFactory = new QuizLocalStorageFactory();
+                const sessionStorage = sessionFactory.createStorage();
+                sessionStorage.removeToken();
+                sessionStorage.removeFlag();
+                sessionStorage.removePoints();
+                window.location.href='./signin.html'
+            });
             requestQ = new EditQuestionsXmlHttpRequest();
             requestQ.createXMLHttpRequest().then(response => {
                 generateAllQuestionHTML(JSON.parse(response));
             }).catch(error => {
-                console.log("You are not authorized");
+                console.log(error);
+                const sessionFactory = new QuizLocalStorageFactory();
+                const sessionStorage = sessionFactory.createStorage();
+                sessionStorage.removeToken();
+                sessionStorage.removeFlag();
+                sessionStorage.removePoints();
+                window.location.href='./signin.html'
             });
         }
 
         window.onload = onPageLoad;
 
         function generateAllQuestionHTML(jsonData){
+            console.log(jsonData);
             for(let i = 0; i < jsonData.length; i++) {
                 const htmlCode = generateQuestionHTML(jsonData[i]['question'], jsonData[i]['id']);
                 document.getElementById("rowy").innerHTML += htmlCode;
@@ -96,12 +115,20 @@
     }
 
 		function backToMainPage() {
-			console.log("Powrot: dziala")
+            const sessionFactory = new QuizLocalStorageFactory();
+            const sessionStorage = sessionFactory.createStorage();
+            sessionStorage.removeToken();
+            sessionStorage.removeFlag();
+            sessionStorage.removePoints();
+            window.location.href='./signin.html'
 		}
 		
 		function delet() {
             goThroughAll();
-            console.log(idSs);
+            requestQ = new DelQuestionXMLHttpRequest();
+            requestQ.createXMLHttpRequest(idSs);
+            document.getElementById("rowy").innerHTML = "";
+            onPageLoad();
 		}
     </script>
 </body>
