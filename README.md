@@ -47,7 +47,7 @@ QuizApp was designed to be fast reliable and portable. These considerations stee
 
 
 ## Credits
-
+Pdw dla braci
 <table>
   <tr>
     <td align="center"><a href="https://github.com/Elyrwag"><img src="https://avatars.githubusercontent.com/u/147379179?v=4" width="100px;" alt=""/><br /><sub><b>Pawel</b></sub></a></td>
