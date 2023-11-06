@@ -169,8 +169,9 @@ def delete_question(token: str = '', questions: str = ''):
     if (token == api.global_token):
         with open('questions.json', 'r+') as questionFile:
             questionFile_data = json.load(questionFile)
-        for element in questionFile_data:
-            if (str(element['id']) in questions):
+        for q in questions:
+            if(next(item for item in questionFile_data if item["id"] == int(q)), False):
+                element = next(item for item in questionFile_data if item["id"] == int(q))
                 questionFile_data.remove(element)
         with open('questions.json', 'w') as questionWrite:
             json.dump(questionFile_data, questionWrite, indent=4)
