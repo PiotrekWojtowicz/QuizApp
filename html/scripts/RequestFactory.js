@@ -315,8 +315,8 @@ class PutQuestionXMLHttpRequest extends XMLHttpRequestAbs {
             const sessionFactory = new QuizLocalStorageFactory();
             const sessionStorage = sessionFactory.createStorage();
             if(sessionStorage.getToken() === null){
-                window.alert("You are not authorized");
-                window.location.href = '../signin.html';
+
+                window.location.href='./error/error2.html'
             }
             const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
             xhr.setRequestHeader('token', tokenWithoutQuotes);
@@ -360,8 +360,8 @@ class DelQuestionXMLHttpRequest extends XMLHttpRequestAbs {
             const sessionFactory = new QuizLocalStorageFactory();
             const sessionStorage = sessionFactory.createStorage();
             if(sessionStorage.getToken() === null){
-                window.alert("You are not authorized");
-                window.location.href = '../signin.html';
+
+                window.location.href='./error/error2.html'
             }
             const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
             xhr.setRequestHeader('token', tokenWithoutQuotes);
@@ -400,8 +400,8 @@ class EditQuestionsXmlHttpRequest extends XMLHttpRequestAbs {
                 const sessionFactory = new QuizLocalStorageFactory();
                 const sessionStorage = sessionFactory.createStorage();
                 if(sessionStorage.getToken() === null){
-                    window.alert("You are not authorized");
-                    window.location.href = '../signin.html';
+
+                    window.location.href='./error/error2.html'
                 }
                 const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
                 xhr.setRequestHeader('token', tokenWithoutQuotes);
@@ -442,8 +442,7 @@ class CheckProfXmlHttpRequest extends XMLHttpRequestAbs {
                 const sessionFactory = new QuizLocalStorageFactory();
                 const sessionStorage = sessionFactory.createStorage();
                 if(sessionStorage.getToken() === null){
-                    window.alert("You are not authorized");
-                    window.location.href = '../signin.html';
+                    window.location.href='./error/error2.html'
                 }
                 const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
                 xhr.setRequestHeader('token', tokenWithoutQuotes);
@@ -484,8 +483,8 @@ class QuestionXMLHttpRequest extends XMLHttpRequestAbs{
             const sessionFactory = new QuizLocalStorageFactory();
             const sessionStorage = sessionFactory.createStorage();
             if(sessionStorage.getToken() === null){
-                window.alert("You are not authorized");
-                window.location.href = '../signin.html';
+
+                window.location.href='../error/error2.html'
             }
             const tokenWithoutQuotes = sessionStorage.getToken().replace(/"/g, '');
             xhr.setRequestHeader('token', tokenWithoutQuotes);
